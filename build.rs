@@ -8,8 +8,8 @@ fn main() {
             .expect("failed to execute `tsc`")
             .success()
     } else {
-        Command::new("sh")
-            .args(["-c", "tsc", "--project", "ts"])
+        Command::new("tsc")
+            .args(["--project", "ts"])
             .status()
             .expect("failed to execute `tsc`")
             .success()
