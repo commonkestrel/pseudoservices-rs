@@ -1,0 +1,53 @@
+html, body {
+    background-color: #1C1C30;
+}
+
+@font-face {
+    font-family: "Iosevka";
+    src: url("fonts/iosevka.ttc") format("ttc");
+}
+
+#card {
+    position: absolute;
+    top: 0px;
+    margin-right: 5vw;
+    margin-left: 5vw;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    display: flex;
+    column-gap: 2vw;
+    color: #47485C;
+    font-family: "Iosevka";
+    min-width: 10em;
+    min-height: 6em;
+    height: 90vh;
+    width: 90vw;
+    overflow-wrap: break-word;
+    font-size: x-large;
+    border-radius: 1vw;
+    overflow: hidden;
+    line-height: 1em;
+}
+
+#string, #hex {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#string {
+    flex: 2;
+    width: 22.5vw;
+}
+
+#hex {
+    flex: 1;
+    width: 67.5vw;
+}
+
+.redlight {
+    color: #FF5C79;
+}
+
+.bluelight {
+    color: cyan;
+}
