@@ -18,28 +18,64 @@ const asciiToHex = (str: string) => {
 const firstHex = asciiToHex(FIRST_NAME);
 const lastHex = asciiToHex(LAST_NAME);
 
-const randomize = () => {
+/**
+ * The element passed must have two `<a>` tags present already.
+ * @param el The element to populate
+ */
+const populateNodes = (el: HTMLElement) => {
+    const children = el.childNodes;
+    const textNode = document.createTextNode("");
+    el.insertBefore(textNode, children[0]);
+    el.insertBefore(textNode, children[2]);
+    el.appendChild(textNode);
+    return children;
+}
+
+const randomize = (strId: string, hexId?: string) => {
     const wrapper = document.getElementById("string-wrapper")!;
     const wrapperStyle = window.getComputedStyle(wrapper);
 
     const fontHeight = parseFloat(wrapperStyle.fontSize);
-    const fontWidth = fontHeight / 2;
+    const fontWidth = fontHeight * 3 / 5;
 
     const box = wrapper.getBoundingClientRect();
     const stringHeight = box.height;
     const stringWidth = box.width;
 
-    const horizontalChars = Math.ceil(stringWidth / fontWidth);
+    const horizontalChars = Math.floor(stringWidth / fontWidth);
     const verticalChars = Math.ceil(stringHeight / fontHeight)
     const stringLength = Math.ceil(verticalChars * horizontalChars);
     
-    const firstIndex = stringLength / 2 - horizontalChars / 2 - 5;
+    const firstIndex = (Math.floor(verticalChars / 2) - 1) * horizontalChars + Math.ceil(horizontalChars / 2) - 5;
     const lastIndex = firstIndex + horizontalChars + 2; 
-    
+
     const chars = randomString(stringLength);
-    const hex = asciiToHex(chars);
-    document.getElementById("string")!.innerHTML = chars.slice(0, firstIndex) + "<span class=\"redlight\">" + FIRST_NAME + "</span>" + chars.slice(firstIndex + FIRST_NAME.length, lastIndex) + "<span class=\"bluelight\">" + LAST_NAME + "</span>" + chars.slice(lastIndex + LAST_NAME.length);
-    document.getElementById("hex")!.innerHTML = hex.slice(0, 3*firstIndex) + "<span class=\"redlight\">" + firstHex + " </span>" + hex.slice(3*firstIndex + firstHex.length, 3*lastIndex) + "<span class=\"bluelight\">" + lastHex + " </span>" + hex.slice(3*lastIndex + lastHex.length);
+    let strChildren = document.getElementById(strId)!.childNodes;
+    if (strChildren.length == 0)
+        populateNodes(document.getElementById(strId)!);
+    strChildren[0].nodeValue = chars.slice(0, firstIndex);
+    strChildren[2].nodeValue = chars.slice(firstIndex + FIRST_NAME.length, lastIndex);
+    strChildren[4].nodeValue = chars.slice(lastIndex + LAST_NAME.length);
+
+    if (hexId) {
+        const hex = asciiToHex(chars);
+        const hexChildren = document.getElementById(hexId)!.childNodes;
+        if (hexChildren.length == 0)
+            populateNodes(document.getElementById(hexId)!);
+        hexChildren[0].nodeValue = hex.slice(0, 3*firstIndex);
+        hexChildren[2].nodeValue = hex.slice(3*firstIndex + firstHex.length, 3*lastIndex);
+        hexChildren[4].nodeValue = hex.slice(3*lastIndex + lastHex.length);
+    }
 }
 
-setInterval(randomize, 50);
+let landscape = window.innerWidth > window.innerHeight;
+window.addEventListener("resize", (ev) => {
+    landscape = window.innerWidth > window.innerHeight;
+});
+
+setInterval(() => {
+    if (landscape) 
+        randomize("string", "hex");
+    else
+        randomize("string");
+}, 70);
