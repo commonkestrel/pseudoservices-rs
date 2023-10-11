@@ -3,18 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://pseudoservices.com/">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>PseudoServices</title>
+    <meta name="description" content="Homepage for commonkestrel's portfolio site">
+
     <link rel="stylesheet" href="css/base.css">
-    <title>Actix Web Test</title>
+    <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
 </head>
 <body>
-    <div id="card">
-        <div id="hex-wrapper">
-            <p id="hex"></p>
+    <header id="card">
+        <a href="https://github.com/commonkestrel/" class="screenreader">Common Kestrel's Github</a>
+        <div id="hex-wrapper" aria-hidden="true" tabindex="-1">
+            <p id="hex">
+                <a href="https://github.com/commonkestrel/" target="_blank" class="redlight" tabindex="-1">43 6F 6D 6D 6F 6E</a>
+                <a href="https://github.com/commonkestrel/" target="_blank" class="bluelight" tabindex="-1">4B 65 73 74 72 65 6C</a>
+            </p>
         </div>
-        <div id="string-wrapper">
-            <p id="string"></p>
+        <div id="string-wrapper" aria-hidden="true" tabindex="-1">
+            <p id="string">
+                <a href="https://github.com/commonkestrel/" target="_blank" class="redlight" tabindex="-1">Common</a>
+                <a href="https://github.com/commonkestrel/" target="_blank" class="bluelight" tabindex="-1">Kestrel</a>
+            </p>
         </div>
-    </div>
+    </header>
     <script src="js/index.js"></script>
 </body>
 </html>
