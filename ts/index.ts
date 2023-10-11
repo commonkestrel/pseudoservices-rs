@@ -1,6 +1,6 @@
 const CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789)@=$#^*/\\]}~_:;`";
-const FIRST_NAME = "Common"
-const LAST_NAME = "Kestrel";
+const FIRST_NAME = "Pseudo"
+const LAST_NAME = "Services";
 
 const randomChar = () => CHARS[Math.floor(Math.random() * (CHARS.length - 1))];
 const randomString = (length: number) => Array.from(Array(length)).map(randomChar).join("");
