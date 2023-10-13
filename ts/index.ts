@@ -31,6 +31,12 @@ const populateNodes = (el: HTMLElement) => {
     return children;
 }
 
+const insertString = (original: string, index: number, insert: string) => {
+    if (index < 0 || insert.length == 0)
+        return original;
+    return original.slice(0, index) + insert + original.slice(index);
+}
+
 const randomize = (strId: string, hexId?: string) => {
     const wrapper = document.getElementById("string-wrapper")!;
     const wrapperStyle = window.getComputedStyle(wrapper);

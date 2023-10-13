@@ -15,6 +15,7 @@ html, body {
     }
 
     #string, #hex {
+        overflow: visible;
         height: 42vw;
     }
 
@@ -28,17 +29,27 @@ html, body {
         width: 66vw;
         max-width: 66vw;
     }
+
+    *:has(.redlight:hover, .bluelight:hover) > .bluelight {
+        color: #5BCEFA;
+        text-shadow: 0px 0px 40px rgba(255,255,255,0.50);
+    }
+
+    *:has(.redlight:hover, .bluelight:hover) > .redlight {
+        color: #F5A9B8;
+        text-shadow: 0px 0px 40px rgba(255,255,255,0.50);
+    }
 }
 
 @media all and (orientation:portrait) {
     #card {
         height: 40vh;
-        font-size: 5vh;
+        font-size: 10vw;
         border-radius: 3vh;
     }
 
     #string {
-        height: 40vh;
+        height: 36vh;
         width: 90vw;
         border-radius: 3vh;
     }
@@ -68,15 +79,15 @@ html, body {
 #string, #hex {
     margin-top: 0px;
     margin-bottom: 0px;
+    word-break: break-word;
+    word-wrap: break-word;
 }
 
 #string {
-    overflow-y: hidden;
     flex: 2;
 }
 
 #hex {
-    overflow: hidden;
     border-radius: 3vw 0px 0px 3vw;
     flex: 1;
 }
@@ -84,22 +95,15 @@ html, body {
 .redlight, .bluelight {
     text-decoration: none;
     margin: 0;
+    transition: 0.3s;
 }
 
 .redlight {
-    color: #FF5C79;
+    color:  #DD5C79;
 }
 
 .bluelight {
-    color: cyan;
-}
-
-#string:has(.redlight:hover, .bluelight:hover) > a {
-    font-weight: 700;
-}
-
-#hex:has(.redlight:hover, .bluelight:hover) > a {
-    font-weight: 700;
+    color: #13BFFF;
 }
 
 .screenreader {
