@@ -1,0 +1,75 @@
+@media all and (orientation:landscape) {
+    html, body {
+        font-family: "JetBrains Mono";
+        font-display: swap;
+        background-color: #1C1C30;
+    }
+
+    #shrink {
+        position: absolute;
+        left: 2.5%;
+        top: 6vh;
+        width: 95%;
+        min-height: 90vh;
+        border-radius: 2rem;
+        border-width: 1px;
+        border-color: #F5A9B8;
+        border-style: solid;
+        overflow: hidden;
+        -webkit-box-shadow:0px 4px 8px 0px rgba(0,0,0,0.50);
+        -moz-box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.50);
+        box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.50);
+    }
+}
+
+@media all and (orientation:portrait) {
+    #shrink {
+        background-color: #1C1C30;
+    }
+}
+
+header {
+    width: 100%;
+    height: 40vh;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+.thumbnail {
+    width: 100%;
+}
+
+.md-body {
+    padding: 0 2em 1em;
+    color: #FFEEFF;
+}
+
+.md-body h1::after {
+    display: block;
+    content: '';
+    margin-top: 10px;
+    border-bottom: 1px solid #666699;
+}
+
+.md-body table {
+    border-collapse: collapse;
+}
+
+.md-body th {
+    background-color: #303050;
+}
+
+.md-body td, .md-body th {
+    border-left: 1px solid #9999AA;
+    border-right: 1px solid #9999AA;
+    padding: 0.25rem;
+}
+
+.md-body tr {
+    border-top: 1px solid #9999AA;
+    border-bottom: 1px solid #9999AA;
+}
+
+#shrink {
+    background-color: #2E2E4B;
+}
