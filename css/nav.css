@@ -1,0 +1,67 @@
+#navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    background-color: rgba(0,0,0,0.25);
+    color: #FFEEFF;
+    z-index: 1000;
+}
+
+@media all and (orientation:landscape) {
+    #navbar {
+        height: 4vh;
+        padding: 0.5vh;
+    }
+
+    #navbar img {
+        min-height: 4vh;
+        max-height: 4vh;
+    }
+
+    #navbar .nav-left {
+        padding-left: 0.5vh;
+    }
+
+    #navbar .nav-right {
+        padding-right: 0.5vh;
+    }
+}
+
+@media all and (orientation:portrait) {
+    #navbar {
+        height: 8vh;
+        padding: 1vh;
+    }
+
+    #navbar img {
+        min-height: 8vh;
+        max-height: 8vh;
+    }
+
+    #navbar .nav-left {
+        padding-left: 1vh;
+    }
+
+    #navbar .nav-right {
+        padding-right: 1vh;
+    }
+}
+
+#navbar .nav-left {
+    position: fixed;
+    left: 0;
+    justify-content: left;
+}
+
+#navbar .nav-right {
+    position: fixed;
+    right: 0;
+    justify-content: right;
+}
+
+#navbar img {
+    width: auto;
+    fill: #FFEEFF;
+}
