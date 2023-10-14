@@ -8,11 +8,22 @@
     <title>PseudoServices</title>
     <meta name="description" content="Homepage for commonkestrel's portfolio site">
 
-    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/icons.css">
     <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
 </head>
 <body>
-    <header id="card">
+    <nav id="navbar">
+        <div class="nav-left">
+
+        </div>
+        <div class="nav-right">
+            <a href="https://github.com/commonkestrel/"><img class="icon-github icon-grow icon-off-white"></a>
+        </div>
+    </nav>
+
+    <header id="head">
         <a href="https://github.com/commonkestrel/" class="screenreader">Common Kestrel's Github</a>
         <div id="hex-wrapper" aria-hidden="true" tabindex="-1">
             <p id="hex">
@@ -27,6 +38,24 @@
             </p>
         </div>
     </header>
+    <main>
+        <section id="blogs">
+            {% for blog in blogs %}
+                <a href={{ blog.href }}>
+                    <div class="card">
+                        <div class="thumbnail">
+                            <img src={{ blog.thumbnail }} alt={{ blog.title }}>
+                        </div>
+                        <div class="card-inner">
+                            <h2 class="card-title">{{ blog.title }}</h2>
+                            <hr class="card-seperator">
+                            <p>{{ blog.description }}</p>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </section>
+    </main>
     <script src="js/index.js"></script>
 </body>
 </html>
