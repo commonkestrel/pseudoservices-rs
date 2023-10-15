@@ -33,3 +33,11 @@
     right: 0.5rem;
     justify-content: right;
 }
+
+#navbar a {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    color: var(--text-color);
+    font-size: 1.25em;
+    text-decoration: none;
+}
