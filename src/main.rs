@@ -14,7 +14,8 @@ use conditional::Conditional;
 static TEMPLATES: Lazy<Tera> = Lazy::new(|| Tera::new("templates/*.tera").expect("Failed to parse templates"));
 
 static BLOGS: Lazy<Vec<BlogPost>> = Lazy::new(|| {
-    serde_json::from_str(include_str!("../blogs/blogs.json")).expect("Unable to parse `blogs/blogs.json`")
+    let blogs = fs::read_to_string("blogs/blogs.json").expect("Unable to read `blogs/blogs.json`");
+    serde_json::from_str(&blogs).expect("Unable to parse `blogs/blogs.json`")
 });
 
 static INDEX_CTX: Lazy<Context> = Lazy::new(|| {
@@ -31,6 +32,12 @@ async fn main() -> std::io::Result<()> {
         ctx.insert("title", &blog.title);
         ctx.insert("description", &blog.description);
         ctx.insert("thumbnail", &blog.thumbnail);
+        if let Some(next) = &blog.next {
+            ctx.insert("next", next);
+        }
+        if let Some(prev) = &blog.prev {
+            ctx.insert("prev", prev);
+        }
 
         let md_path = PathBuf::from("./blogs").join(&blog.file);
         let md = fs::read_to_string(md_path)?;
@@ -72,6 +79,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(Conditional::new(nocache, cfg!(debug_assertions)))
             .wrap(middleware::Logger::default())
     })
+    .bind(("192.168.86.28", 80))?
     .bind(("0.0.0.0", 8080))?
     .run()
     .await
@@ -86,6 +94,14 @@ struct BlogPost {
     href: String,
     card: String,
     thumbnail: String,
+    next: Option<Linked>,
+    prev: Option<Linked>,
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
+struct Linked {
+    title: String,
+    href: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
