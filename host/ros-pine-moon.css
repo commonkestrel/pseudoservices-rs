@@ -34,10 +34,20 @@ base0E  #c4a7e7  Keywords, Storage, Selector, Markup Italic, Diff Changed
 base0F  #b9b9bc  Deprecated, Opening/Closing Embedded Language Tags, e.g. <?php ?>
 */
 
+p code{
+    display: inline;
+    overflow-x: auto;
+    overflow-y: auto;
+    border-radius: 0.5rem;
+    padding: 0.25em;
+    background: #1f1f27;
+    color: var(--text-color);
+}
+
 pre code.hljs {
     display: block;
     overflow-x: auto;
-    overflow-y: scroll;
+    overflow-y: auto;
     border-radius: 0.5rem;
     padding: 1em;
 }
