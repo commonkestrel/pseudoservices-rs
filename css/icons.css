@@ -33,3 +33,15 @@
 .icon-off-white {
     filter: invert(86%) sepia(20%) saturate(707%) hue-rotate(225deg) brightness(113%) contrast(105%);
 }
+
+.icon-text-color {
+    filter: invert(86%) sepia(5%) saturate(146%) hue-rotate(292deg) brightness(112%) contrast(92%);
+}
+
+.icon-primary {
+    filter: invert(74%) sepia(6%) saturate(4672%) hue-rotate(165deg) brightness(101%) contrast(96%);
+}
+
+.icon-accent {
+    filter: invert(75%) sepia(8%) saturate(1530%) hue-rotate(299deg) brightness(99%) contrast(94%);
+}

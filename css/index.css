@@ -1,7 +1,5 @@
 html, body {
-    font-family: "JetBrains Mono";
-    font-display: swap;
-    background-color: #1C1C30;
+    background-color: var(--background-color);
 }
 
 ::-webkit-scrollbar {
@@ -19,7 +17,7 @@ html, body {
 }
 
 @media all and (orientation:landscape) {
-    #head {
+    #randomizer {
         top: 2.5vh;
         left: calc(5vw - 10px);
         flex-direction: row;
@@ -49,7 +47,7 @@ html, body {
 }
 
 @media all and (orientation:portrait) {
-    #head {
+    #randomizer {
         top: 5vh;
         margin-left: 4vw;
         font-size: 9vw;
@@ -69,7 +67,7 @@ html, body {
     }
 }
 
-#head {
+#randomizer {
     position: relative;
     margin-right: 5vw;
     margin-top: 5vh;
@@ -114,12 +112,12 @@ html, body {
 }
 
 *:has(.redlight:hover, .bluelight:hover) > .bluelight {
-    color: #5BCEFA;
+    color: var(--primary-color);
     text-shadow: 0px 0px 15px rgba(200,225,255,0.40);
 }
 
 *:has(.redlight:hover, .bluelight:hover) > .redlight {
-    color: #F5A9B8;
+    color: var(--accent-color);
     text-shadow: 0px 0px 15px rgba(255,200,200,0.40);
 }
 
@@ -135,6 +133,11 @@ html, body {
     border: 0 !important;
 }
 
+#randomizer p, #randomizer a {
+    font-size: inherit;
+    line-height: 1em;
+}
+
 #blogs {
     display: flex;
     flex-wrap: wrap;
@@ -147,14 +150,11 @@ html, body {
 
 .card {
     border-radius: 20px;
-    background-color: #2E2E4B;
+    background-color: var(--secondary-color);
     width: 20em;
     height: 27em;
     overflow: hidden;
-    border-width: 1px;
-    border-color: #3F3F6B;
-    border-style: solid;
-    color: #FFEEFF;
+    color: var(--text-color);
     -webkit-box-shadow:0px 4px 8px 0px rgba(0,0,0,0.50);
     -moz-box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.50);
     box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.50);
@@ -189,8 +189,8 @@ html, body {
     padding: 0.5rem;
 }
 
-.card-title {
-    margin-top: 0;
+.card-inner p {
+    line-height: 1.5em;
 }
 
 .card-seperator {
@@ -198,8 +198,6 @@ html, body {
     width: 95%;
     border-width: 0;
     background-color: #3F3F6B;
-    margin-top: -0.5rem;
-    margin-bottom: -0.5rem;
 }
 
 #blogs a {
