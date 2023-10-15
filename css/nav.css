@@ -4,64 +4,32 @@
     left: 0;
     width: 100%;
     display: flex;
-    background-color: rgba(0,0,0,0.25);
-    color: #FFEEFF;
+    background-color: var(--background-color);
+    color: var(--text-color);
     z-index: 1000;
+    border-bottom-color: var(--line-color);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
 }
 
-@media all and (orientation:landscape) {
-    #navbar {
-        height: 4vh;
-        padding: 0.5vh;
-    }
-
-    #navbar img {
-        min-height: 4vh;
-        max-height: 4vh;
-    }
-
-    #navbar .nav-left {
-        padding-left: 0.5vh;
-    }
-
-    #navbar .nav-right {
-        padding-right: 0.5vh;
-    }
+#navbar {
+    height: 2.5rem;
+    padding: 0.5em;
 }
 
-@media all and (orientation:portrait) {
-    #navbar {
-        height: 8vh;
-        padding: 1vh;
-    }
-
-    #navbar img {
-        min-height: 8vh;
-        max-height: 8vh;
-    }
-
-    #navbar .nav-left {
-        padding-left: 1vh;
-    }
-
-    #navbar .nav-right {
-        padding-right: 1vh;
-    }
+#navbar img {
+    height: 2.5rem;
+    width: auto;
 }
 
 #navbar .nav-left {
     position: fixed;
-    left: 0;
+    left: 0.5rem;
     justify-content: left;
 }
 
 #navbar .nav-right {
     position: fixed;
-    right: 0;
+    right: 0.5rem;
     justify-content: right;
-}
-
-#navbar img {
-    width: auto;
-    fill: #FFEEFF;
 }
