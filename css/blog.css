@@ -1,75 +1,89 @@
 @media all and (orientation:landscape) {
     html, body {
-        font-family: "JetBrains Mono";
-        font-display: swap;
-        background-color: #1C1C30;
+        background-color: var(--background-color);
     }
 
-    #shrink {
+    #content {
         position: absolute;
-        left: 2.5%;
-        top: 6vh;
-        width: 95%;
-        min-height: 90vh;
-        border-radius: 2rem;
-        border-width: 1px;
-        border-color: #F5A9B8;
-        border-style: solid;
-        overflow: hidden;
-        -webkit-box-shadow:0px 4px 8px 0px rgba(0,0,0,0.50);
-        -moz-box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.50);
-        box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.50);
+        top: 8vh;
+        right: 12.5vw;
+        width: 75vw;
+    }
+
+    #md-body {
+        position: relative;
+        left: 10vw;
+        width: 50vw;
     }
 }
 
 @media all and (orientation:portrait) {
-    #shrink {
-        background-color: #1C1C30;
+    #content {
+        position: absolute;
+        top: 8rem;
+        width: 95vw;
     }
 }
 
 header {
     width: 100%;
-    height: 40vh;
     overflow: hidden;
     object-fit: cover;
 }
 
+#content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--text-color);
+}
+
+#description {
+    font-size: var(--h5);
+}
+
+.thumbnail-container {
+    width: 100%;
+    height: 25rem;
+    border-radius: 1em;
+    overflow: hidden;
+    margin: 2rem 0;
+}
+
 .thumbnail {
     width: 100%;
+    height: auto;
 }
 
-.md-body {
+#md-body {
+    text-align: left;
     padding: 0 2em 1em;
-    color: #FFEEFF;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    margin-bottom: 5rem;
 }
 
-.md-body h1::after {
-    display: block;
-    content: '';
-    margin-top: 10px;
-    border-bottom: 1px solid #666699;
-}
-
-.md-body table {
+#md-body table {
     border-collapse: collapse;
 }
 
-.md-body th {
-    background-color: #303050;
+#md-body th {
+    background-color: var(--lift-color);
 }
 
-.md-body td, .md-body th {
+#md-body td, #md-body th {
     border-left: 1px solid #9999AA;
     border-right: 1px solid #9999AA;
     padding: 0.25rem;
 }
 
-.md-body tr {
+#md-body tr {
     border-top: 1px solid #9999AA;
     border-bottom: 1px solid #9999AA;
 }
 
 #shrink {
-    background-color: #2E2E4B;
+    background-color: var(--secondary-color);
 }

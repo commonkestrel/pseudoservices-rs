@@ -1,11 +1,15 @@
 use std::fs;
 use std::path::PathBuf;
 use actix_files as afs;
-use actix_web::{get, App, HttpRequest, HttpServer, Responder, HttpResponse, http::header::ContentType};
+use actix_web::{get, App, HttpRequest, HttpServer, Responder, HttpResponse, http::header::ContentType, middleware};
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 use tera::{ Tera, Context };
-use pulldown_cmark::{ Parser, Options, html::push_html };
+use pulldown_cmark::{ Parser, Options, html::push_html, Event, Tag, CodeBlockKind, CowStr };
+use log::info;
+
+mod conditional;
+use conditional::Conditional;
 
 static TEMPLATES: Lazy<Tera> = Lazy::new(|| Tera::new("templates/*.tera").expect("Failed to parse templates"));
 
@@ -19,29 +23,43 @@ static INDEX_CTX: Lazy<Context> = Lazy::new(|| {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
+
     // Render and sanitize blog markdown
     for blog in BLOGS.iter() {
         let mut ctx = Context::new();
         ctx.insert("title", &blog.title);
+        ctx.insert("description", &blog.description);
         ctx.insert("thumbnail", &blog.thumbnail);
 
         let md_path = PathBuf::from("./blogs").join(&blog.file);
         let md = fs::read_to_string(md_path)?;
 
-        let options = Options::ENABLE_TABLES;
+        let options = Options::all();
         let md_parse = Parser::new_ext(&md, options);
 
         let mut unsafe_html = String::new();
-        push_html(&mut unsafe_html, md_parse);
+        push_html(&mut unsafe_html, md_parse.into_iter());
 
-        let safe_html = ammonia::clean(&unsafe_html);
+        let safe_html = ammonia::Builder::new()
+            .add_tag_attributes("code", &["class"])
+
+            .clean(&unsafe_html)
+            .to_string();
+
         ctx.insert("body", &safe_html);
 
-        println!("Rendered `{}`, output at `{}`", blog.file.display(), blog.out.display());
+        info!("Rendered `{}`, output at `{}`", blog.file.display(), blog.out.display());
         fs::write(&blog.out, TEMPLATES.render("blog.tera", &ctx).expect("Unable to render blog"))?;
     }
 
+
     HttpServer::new(|| {
+        let nocache = middleware::DefaultHeaders::new()
+            .add(("Cache-Control", "no-cache, no-store, must-revalidate"))
+            .add(("Pragma", "no-cache"))
+            .add(("Expires", 0));
+
         App::new()
             .service(index)
             .service(favicon)
@@ -50,6 +68,9 @@ async fn main() -> std::io::Result<()> {
             .service(afs::Files::new("/js", "./js").show_files_listing())
             .service(afs::Files::new("/css", "./css").show_files_listing())
             .service(afs::Files::new("/blog", "./blogs/out"))
+            .service(afs::Files::new("/host", "./host"))
+            .wrap(Conditional::new(nocache, cfg!(debug_assertions)))
+            .wrap(middleware::Logger::default())
     })
     .bind(("0.0.0.0", 8080))?
     .run()
@@ -63,6 +84,7 @@ struct BlogPost {
     file: PathBuf,
     out: PathBuf,
     href: String,
+    card: String,
     thumbnail: String,
 }
 

@@ -5,6 +5,7 @@
         "file": "test.md",
         "out": "./blogs/out/test.html",
         "href": "/blog/test.html",
+        "card": "https://www.responsivetranslation.com/wp-content/uploads/2016/05/exam.jpg",
         "thumbnail": "https://www.responsivetranslation.com/wp-content/uploads/2016/05/exam.jpg"
     },
     {
@@ -13,6 +14,7 @@
         "file": "assembler.md",
         "out": "./blogs/out/assembler.html",
         "href": "/blog/assembler.html",
+        "card": "https://isaaccomputerscience.org/api/v3.5.0/api/images/content/computer_science/computer_systems/programming_languages/figures/isaac_cs_sys_proglang_simulator_display_if.png",
         "thumbnail": "https://isaaccomputerscience.org/api/v3.5.0/api/images/content/computer_science/computer_systems/programming_languages/figures/isaac_cs_sys_proglang_simulator_display_if.png"
     }
 ]

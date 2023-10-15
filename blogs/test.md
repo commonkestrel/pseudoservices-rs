@@ -1,14 +1,40 @@
-# Test
+This is some test blog content.
+I'm just using it to test sizing, coloring, etc...
 
-Just a test to see how this works.
+## How are they made?
 
-What about bullets?
+The articles are typed in Markdown, then rendered and
+placed into a template I use for every blog.
+
+It can turn something like this:
+```md
+#### Wow, look at me!
+
+That's pretty cool.
+```
+Into this:
+
+#### Wow, look at me!
+
+That's pretty cool.
+
+### Let's test some things!
+
+How about code blocks?
+```rust
+fn main() {
+    println!("hello world!");
+}
+```
+
+#### What about bullets?
 - single
 - double
 - triple?
 
-### Maybe tables?
+#### Maybe tables?
 
 | h | e | a | d |
 |---|---|---|---|
 | wow | so cool | amazing | wonderful |
+

@@ -11,9 +11,17 @@
     <link rel="stylesheet" href="/css/blog.css">
     <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" href="/css/icons.css">
+    <link rel="stylesheet" href="/css/global.css">
     <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
+
+    <link rel="stylesheet" href="/host/ros-pine-moon.css">
+    <script src="/host/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="/js/global.js"></script>
 </head>
 <body>
+    <svg id="fader" class="init-in"></svg>
+
     <nav id="navbar">
         <div class="nav-left">
 
@@ -23,12 +31,16 @@
         </div>
     </nav>
 
-    <div id="shrink">
+    <div id="content">
         <header>
-            <img src={{ thumbnail }} class="thumbnail">
+            <h1>{{ title }}</h1>
+            <p id="description">{{ description }}</p>
+            <div class="thumbnail-container">
+                <img src={{ thumbnail }} class="thumbnail">
+            </div>
         </header>
         <main>
-            <article class="md-body">
+            <article id="md-body">
                 {{ body }}
             </article>
         </main>
