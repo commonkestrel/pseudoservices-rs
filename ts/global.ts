@@ -49,6 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     for (let i=0; i < headings.length; i++) {
         const heading = headings[i] as HTMLHeadingElement;
-        heading.id = heading.innerText.toLowerCase().replace(' ', '_');
+        if (!heading.id) {
+            heading.id = heading.innerText.toLowerCase().replace(' ', '_');
+        }
     }
 });
