@@ -44,7 +44,10 @@
         </div>
     </header>
     <main>
-        <section id="blogs">
+        <div class="heading">
+            <h1 class="highlight">Blogs</h1>
+        </div>
+        <section id="blog-list">
             {% for blog in blogs %}
                 <a href={{ blog.href }}>
                     <div class="card">
