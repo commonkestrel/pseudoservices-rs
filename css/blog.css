@@ -15,7 +15,17 @@ html, body {
     }
 
     .thumbnail-container {
-        height: 25rem;
+        max-height: 25rem;
+    }
+
+    #timeline {
+        width: 50vw;
+        position: relative;
+        left: 10vw;
+    }
+
+    .next, .prev {
+        max-width: 25vw;
     }
 }
 
@@ -26,7 +36,15 @@ html, body {
     }
 
     .thumbnail-container {
-        height: 12.5rem;
+        max-height: 15rem;
+    }
+
+    #timeline {
+        width: 95vw;
+    }
+
+    .prev, .next {
+        max-width: 52.5vw
     }
 }
 
@@ -68,7 +86,7 @@ header {
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
-    margin-bottom: 5rem;
+    margin-bottom: 3rem;
 }
 
 #md-body table {
@@ -76,7 +94,7 @@ header {
 }
 
 #md-body th {
-    background-color: var(--lift-color);
+    background-color: var(--secondary-color);
 }
 
 #md-body td, #md-body th {
@@ -90,36 +108,42 @@ header {
     border-bottom: 1px solid #9999AA;
 }
 
-#shrink {
-    background-color: var(--secondary-color);
-}
-
 p a {
     color: skyblue;
 }
 
-a:has(.prev, .next) {
+#timeline {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    padding: 0;
+}
+
+.prev-wrapper, .next-wrapper {
     text-decoration: none;
 }
 
 .prev {
+    text-align: left;
     float: left;
     padding: 0.2rem 2rem 0.2rem 1rem;
 }
 
 .next {
+    text-align: right;
     float: right;
-    padding: 0.2rem 2rem 0.2rem 1rem;
+    padding: 0.2rem 1rem 0.2rem 2rem;
 }
 
 .prev, .next {
-    margin-top: 3rem;
     display: inline-block;
-    background-color: var(--lift-color);
+    background-color: var(--secondary-color);
     border-radius: 1em;
     border-style: solid;
     border-width: 1px;
     border-color: var(--accent-color);
+    height: 100%;
 }
 
 .sub-label {

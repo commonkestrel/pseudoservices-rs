@@ -42,8 +42,10 @@
         <main>
             <article id="md-body">
                 {{ body }}
+            </article>
+            <div id="timeline">
                 {% if prev %}
-                    <a href={{ prev.href }}>
+                    <a class="prev-wrapper" href={{ prev.href }}>
                         <div class="prev">
                             <div class="sub-label">Previous</div>
                             <div class="label">{{ prev.title }}</div>
@@ -51,14 +53,14 @@
                     </a>
                 {% endif %}
                 {% if next %}
-                    <a href={{ next.href }}>
+                    <a class="next-wrapper" href={{ next.href }}>
                         <div class="next">
                             <div class="sub-label">Next</div>
                             <div class="label">{{ next.title }}</div>
                         </div>
                     </a>
                 {% endif %}
-            </article>
+            </div>
         </main>
     </div>
 </body>
