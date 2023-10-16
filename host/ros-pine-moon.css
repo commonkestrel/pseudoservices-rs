@@ -41,7 +41,7 @@ p code{
     border-radius: 0.5rem;
     padding: 0.25em;
     background: #1f1f27;
-    color: var(--text-color);
+    color: #ea9a97;
 }
 
 pre code.hljs {
