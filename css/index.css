@@ -7,7 +7,7 @@ html, body {
         left: calc(5vw - 10px);
         flex-direction: row;
         column-gap: 2vw;
-        max-height: 90vh;
+        max-height: 82.5vh;
         width: 90vw;
         height: 42vw;
         font-size: 3vw;
@@ -56,7 +56,7 @@ html, body {
     top: 3rem;
     margin-right: 5vw;
     margin-top: 5vh;
-    margin-bottom: 10vh;
+    margin-bottom: 5rem;
     column-gap: 2vw;
     color: #47485C;
     min-width: 10em;
@@ -138,7 +138,9 @@ html, body {
     border-radius: 20px;
     background-color: var(--secondary-color);
     width: 20em;
+    max-width: 90vw;
     height: 27em;
+    max-height: calc(27/20 * 90vw);
     overflow: hidden;
     color: var(--text-color);
     -webkit-box-shadow:0px 4px 8px 0px rgba(0,0,0,0.50);
@@ -155,6 +157,7 @@ html, body {
 
 .thumbnail {
     height: 16rem;
+    max-height: calc(16/20 * 90vw);
     width: 20rem;
     display: flex;
     justify-content: center;
