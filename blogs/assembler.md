@@ -37,7 +37,9 @@ If we want to make an assembler, we first need to define an architecture.
 0xF: `OUT reg/imm8, reg`  => PORT[reg/imm8] = reg 
 
 ### Layout
-Each instruction, when translated to machine code, should be formatted like so: `XXXXYZZZ AAAAAAAA BBBBBBBB`
+Each instruction, when translated to machine code, should be formatted like so:
+
+`XXXXYZZZ AAAAAAAA BBBBBBBB`
 
 All instructions will take up 3 bytes
 
@@ -46,22 +48,26 @@ Y: 1 if `A` is an immediate, or 0 if `A` is a register
 Z: First register, or 0 if none is provided (`JNZ`, `PUSH`, `LDA`)
 
 A: Second register/ Immediate high byte, or 0 if none is provided (`POP`)
-B: Immediate low byte, of 0 if none is provided (All except `LW`, `SW`, and `LDA`)
+B: Immediate low byte, of non-existant if none is provided (All except `LW`, `SW`, and `LDA`)
 
 ### Registers
-`A`: GP
-`B`: GP
-`C`: GP
-`D`: GP
-`E`: GP
+
+`A`, `B`, `C`, `D`, `E`: General Purpose
+
 `H`: High byte (Memory addressing & Jumps)
+
 `L`: Low byte (Memory addressing & Jumps)
+
 `S`: Status (See [Status](#status))
 
 ### Status
 
 The status register stores flags for later use.
+
 `C`: Carry bit
+
 `E`: Equal bit
+
 `L`: Less-than bit
+
 `G`: Greater-than bit
