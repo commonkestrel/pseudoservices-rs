@@ -5,7 +5,7 @@ use actix_web::{get, App, HttpRequest, HttpServer, Responder, HttpResponse, http
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 use tera::{ Tera, Context };
-use pulldown_cmark::{ Parser, Options, html::push_html, Event, Tag, CodeBlockKind, CowStr };
+use pulldown_cmark::{ Parser, Options, html::push_html };
 use log::info;
 
 mod conditional;
@@ -48,8 +48,15 @@ async fn main() -> std::io::Result<()> {
         let mut unsafe_html = String::new();
         push_html(&mut unsafe_html, md_parse.into_iter());
 
+        let id = ["id"];
+
         let safe_html = ammonia::Builder::new()
             .add_tag_attributes("code", &["class"])
+            .add_tag_attributes("h1", &id)
+            .add_tag_attributes("h2", &id)
+            .add_tag_attributes("h3", &id)
+            .add_tag_attributes("h4", &id)
+            .add_tag_attributes("h5", &id)
 
             .clean(&unsafe_html)
             .to_string();
@@ -61,7 +68,7 @@ async fn main() -> std::io::Result<()> {
     }
 
 
-    HttpServer::new(|| {
+    let mut server = HttpServer::new(|| {
         let nocache = middleware::DefaultHeaders::new()
             .add(("Cache-Control", "no-cache, no-store, must-revalidate"))
             .add(("Pragma", "no-cache"))
@@ -78,11 +85,22 @@ async fn main() -> std::io::Result<()> {
             .service(afs::Files::new("/host", "./host"))
             .wrap(Conditional::new(nocache, cfg!(debug_assertions)))
             .wrap(middleware::Logger::default())
-    })
-    .bind(("192.168.86.28", 80))?
-    .bind(("0.0.0.0", 8080))?
-    .run()
-    .await
+    });
+
+    // Allow for hosting config based on environment variables
+    match std::env::var("PS_ADDRS") {
+        Ok(addrs) => {
+            for addr in addrs.split(' ') {
+                let (ip, port) = addr.split_once(':').expect(&format!("Unable to parse ip address: {addr}"));
+                server = server.bind((ip, port.parse().expect(&format!("Unable to parse port {port}"))))?
+            }
+        },
+        Err(_) => {
+            server = server.bind(("localhost", 80))?;
+        }
+    };
+    
+    server.run().await
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
