@@ -128,7 +128,8 @@ struct IndexCtx {
 }
 
 impl From<Vec<BlogPost>> for IndexCtx {
-    fn from(value: Vec<BlogPost>) -> Self {
+    fn from(mut value: Vec<BlogPost>) -> Self {
+        value.reverse();
         IndexCtx {blogs: value}
     }
 }
