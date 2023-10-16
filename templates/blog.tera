@@ -44,6 +44,7 @@
                 {{ body }}
             </article>
             <div id="timeline">
+                <div class="always-prev">
                 {% if prev %}
                     <a class="prev-wrapper" href={{ prev.href }}>
                         <div class="prev">
@@ -52,6 +53,8 @@
                         </div>
                     </a>
                 {% endif %}
+                </div>
+                <div class="always-next">
                 {% if next %}
                     <a class="next-wrapper" href={{ next.href }}>
                         <div class="next">
@@ -60,6 +63,7 @@
                         </div>
                     </a>
                 {% endif %}
+                </div>
             </div>
         </main>
     </div>
