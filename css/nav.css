@@ -30,7 +30,7 @@
 
 #navbar .nav-right {
     position: fixed;
-    right: 0.5rem;
+    right: 0;
     justify-content: right;
 }
 
