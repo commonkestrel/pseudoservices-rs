@@ -137,6 +137,7 @@ p, small, a, li, table {
 }
 
 .highlight {
+    line-height: 2;
     z-index: 5;
     position: relative;
     display: flex;
@@ -146,17 +147,25 @@ p, small, a, li, table {
 
 .highlight::before {
     content: "";
-    height: 25%;
+    height: 33%;
     width: 100%;
     display: block;
     z-index: -5;
     opacity: 40%;
     position: absolute;
-    bottom: 0.25em;
+    bottom: 0.5em;
     transition: all 200ms ease;
     background: linear-gradient(180deg, transparent 50%, var(--accent-color) 50%);
 }
 
 .highlight:hover::before {
     height: 50%;
+}
+
+mjx-math {
+    transition: text-shadow 300ms;
+}
+
+mjx-math:hover {
+    text-shadow: 0px 0px 20px rgba(255,255,255,0.30);
 }

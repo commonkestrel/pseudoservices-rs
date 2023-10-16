@@ -38,3 +38,10 @@ fn main() {
 |---|---|---|---|
 | wow | so cool | amazing | wonderful |
 
+#### Wait, do math expressions work?
+
+$$
+\int x^x dx = x^x\ln(ex) + C
+$$
+
+They also work inline: \\(f(x)=ax^2+bx+c\\)

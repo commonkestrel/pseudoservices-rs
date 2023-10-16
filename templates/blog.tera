@@ -12,12 +12,14 @@
     <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" href="/css/icons.css">
     <link rel="stylesheet" href="/css/global.css">
-    <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
+    <script src="/js/global.js"></script>
 
+    <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
     <link rel="stylesheet" href="/host/ros-pine-moon.css">
     <script src="/host/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-    <script src="/js/global.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <svg id="fader" class="init-in"></svg>
