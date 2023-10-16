@@ -183,7 +183,7 @@ html, body {
     height: 1px;
     width: 95%;
     border-width: 0;
-    opacity: 50%;
+    opacity: 30%;
     background-color: var(--accent-color);
 }
 

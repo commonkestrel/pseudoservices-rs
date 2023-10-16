@@ -150,7 +150,7 @@ p, small, a, li, table {
     width: 100%;
     display: block;
     z-index: -5;
-    opacity: 30%;
+    opacity: 40%;
     position: absolute;
     bottom: 0.25em;
     transition: all 200ms ease;
