@@ -1,24 +1,36 @@
+@media screen and (orientation:portrait) {
+    :root {
+        --font-scale: calc(6/5);
+    }
+}
+
+@media screen and (orientation:landscape) {
+    :root {
+        --font-scale: calc(4/3);
+    }
+}
+
 :root {
     font-family: "JetBrains Mono", sans-serif;
+    color: var(--text-color);
 
     /* Color palette */
     --text-color: #F3ECEE;
     --background-color: #101619;
     --primary-color: #5BCEFA;
-    --secondary-color: #202525;
+    --secondary-color: #1f1f27;
     --accent-color: #F5A9B8;
-    --lift-color: #1f1f27;
     --line-color: #282E30;
     --fader-color: #050708;
 
     /* Font sizes */
-    --font-scale: calc(4/3);
     --p: 1rem;
     --h5: calc(var(--p) * var(--font-scale));
     --h4: calc(var(--h5) * var(--font-scale));
     --h3: calc(var(--h4) * var(--font-scale));
     --h2: calc(var(--h3) * var(--font-scale));
     --h1: calc(var(--h2) * var(--font-scale));
+    --small: calc(var(--p) / var(--font-scale));
 }
 
 h1, h2, h3, h4, h5 {
@@ -62,6 +74,20 @@ p, small, a, li, table {
     margin: 0;
 }
 
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: rgba(0,0,0,0);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #333355;
+    transition: background-color 0.3s;
+    border-radius: 7.5px;
+}
+
 @media not (prefers-reduced-motion) {
     #fader {
         background-color: var(--fader-color);
@@ -70,18 +96,17 @@ p, small, a, li, table {
         height: 100%;
         z-index: 999999;
         pointer-events: none;
-        animation-duration: 300ms;
         animation-timing-function: ease-in-out;
     }
 
     @keyframes fade-out {
-        from { width: 100%; }
+        from { width: 100vw; }
         to { width: 0; }
     }
 
     @keyframes fade-in {
         from { width: 0; }
-        to { width: 100%; }
+        to { width: 100vw; }
     }
 
     #fader.init-in {
@@ -90,14 +115,48 @@ p, small, a, li, table {
     }
 
     #fader.fade-out {
+        animation-duration: 200ms;
         right: 0;
         width: 0;
         animation-name: fade-out;
     }
 
     #fader.fade-in {
+        animation-duration: 150ms;
         left: 0;
         width: 100%;
         animation-name: fade-in;
     }
+}
+
+.heading {
+    display: flex;
+    justify-content: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.highlight {
+    z-index: 5;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.highlight::before {
+    content: "";
+    height: 25%;
+    width: 100%;
+    display: block;
+    z-index: -5;
+    opacity: 30%;
+    position: absolute;
+    bottom: 0.25em;
+    transition: all 200ms ease;
+    background: linear-gradient(180deg, transparent 50%, var(--accent-color) 50%);
+}
+
+.highlight:hover::before {
+    height: 50%;
 }
