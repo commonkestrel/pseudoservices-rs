@@ -3,7 +3,7 @@ use std::process::Command;
 fn main() {
     let success = if cfg!(target_os = "windows") {
         Command::new("cmd")
-            .args(["/C", "tsc", "--project", "ts"])
+            .args(["/C", "tsc", "--project", "../ts"])
             .status()
             .expect("failed to execute `tsc`")
             .success()
@@ -19,5 +19,5 @@ fn main() {
         panic!("failed to build typescript with `tsc`");
     }
 
-    println!("cargo:rerun-if-changed=ts")
+    println!("cargo:rerun-if-changed=../ts")
 }
