@@ -1,0 +1,27 @@
+[blogs]
+# Path of output directory relative to workspace
+output = "./blogs/out"
+# Path of input Markdown
+input = "./blogs"
+
+# More about these can be found in pulldown-cmark's documentation
+
+# Enable tables in Markdown
+tables = true
+# Enable footnotes in Markdown
+footnotes = true
+# Enable strikethrough in Markdown
+strikethrough = true
+# Enable tasklists in Markdown
+tasklists = true
+# Enable smart punctuation in Markdown
+smart_punctuation = true
+# Enable heading attributes in Markdown
+heading_attributes = true
+
+[[articles]]
+title = "Test"
+description = "Dedicated to testing blog features"
+filename = "test.md"
+card = "https://www.responsivetranslation.com/wp-content/uploads/2016/05/exam.jpg"
+thumbnail = "https://www.responsivetranslation.com/wp-content/uploads/2016/05/exam.jpg"
