@@ -1,3 +1,4 @@
-fn main() {
-    println!("Hello, world!");
+#[wasm_bindgen]
+pub fn derivative(equation: &str) -> String {
+    equation.replace("()", "")
 }

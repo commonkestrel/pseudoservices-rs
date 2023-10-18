@@ -9,7 +9,7 @@ fn main() {
             .success()
     } else {
         Command::new("tsc")
-            .args(["--project", "ts"])
+            .args(["--project", "../ts"])
             .status()
             .expect("failed to execute `tsc`")
             .success()
