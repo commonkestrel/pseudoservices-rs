@@ -48,7 +48,7 @@
             <div id="timeline">
                 <div class="always-prev">
                 {% if prev %}
-                    <a class="prev-wrapper" href={{ prev.href }}>
+                    <a class="prev-wrapper" href={{ "/blog/" ~ prev.href }}>
                         <div class="prev">
                             <div class="sub-label">Previous</div>
                             <div class="label">{{ prev.title }}</div>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="always-next">
                 {% if next %}
-                    <a class="next-wrapper" href={{ next.href }}>
+                    <a class="next-wrapper" href={{ "/blog/" ~ next.href }}>
                         <div class="next">
                             <div class="sub-label">Next</div>
                             <div class="label">{{ next.title }}</div>

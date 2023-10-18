@@ -51,8 +51,8 @@
             <h1 class="highlight">Blogs</h1>
         </div>
         <section id="blog-list">
-            {% for blog in blogs %}
-                <a href={{ blog.href }}>
+            {% for blog in articles %}
+                <a href={{  "blog/" ~ blog.outfile }}>
                     <div class="card">
                         <div class="thumbnail">
                             <img src={{ blog.card }} alt={{ blog.title }}>

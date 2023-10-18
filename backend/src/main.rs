@@ -1,21 +1,21 @@
-use std::path::{PathBuf, Path};
+use std::{path::PathBuf, time::Duration};
 use actix_files as afs;
-use actix_web::{get, App, HttpRequest, HttpServer, Responder, HttpResponse, http::header::ContentType, middleware};
-use futures_util::StreamExt;
+use afs::NamedFile;
+use actix_web::{get, error, App, HttpRequest, HttpServer, Responder, HttpResponse, http::header::ContentType, middleware};
+use anyhow::bail;
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 use tera::{ Tera, Context };
 use pulldown_cmark::{ Parser, Options, html::push_html };
-use log::{ info, warn, error };
-use tokio::sync::RwLock;
-use tokio::fs;
-use futures::{SinkExt, channel::mpsc::{channel, Receiver}};
-use notify::{RecommendedWatcher, Event, Config, Watcher, RecursiveMode, EventKind};
+use log::{ info, error };
+use tokio::{sync::{RwLock, mpsc::{channel, Receiver}}, fs, runtime::Handle};
+use  notify_debouncer_full::{ new_debouncer, notify::{self, RecommendedWatcher, Watcher, RecursiveMode, EventKind}, DebouncedEvent, FileIdMap, Debouncer, DebounceEventResult };
+use path_clean::PathClean;
 
 mod conditional;
 use conditional::Conditional;
 
-const BLOG_CONFIG: &str = "./Blogs.toml";
+const BLOG_CONFIG: &str = "Blogs.toml";
 
 static TEMPLATES: Lazy<Tera> = Lazy::new(|| Tera::new("templates/*.tera").expect("Failed to parse templates"));
 
@@ -28,6 +28,10 @@ static BLOGS: Lazy<RwLock<BlogConfig>> = Lazy::new(|| {
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
 
+    if let Err(err) = render_md().await {
+        error!("error rendering markdown: {err}");
+    };
+    
     tokio::spawn(watch_blogs());
 
     let mut server = HttpServer::new(|| {
@@ -40,10 +44,10 @@ async fn main() -> std::io::Result<()> {
             .service(index)
             .service(favicon)
             .service(robots)
+            .service(blog_post)
             .service(afs::Files::new("/static", "./static").show_files_listing())
             .service(afs::Files::new("/js", "./js").show_files_listing())
             .service(afs::Files::new("/css", "./css").show_files_listing())
-            .service(afs::Files::new("/blog", "./blogs/out"))
             .service(afs::Files::new("/host", "./host"))
             .wrap(Conditional::new(nocache, cfg!(debug_assertions)))
             .wrap(middleware::Logger::default())
@@ -69,14 +73,31 @@ async fn main() -> std::io::Result<()> {
 struct BlogPost {
     title: String,
     description: String,
-    file: PathBuf,
-    out: PathBuf,
-    href: String,
+    infile: PathBuf,
+    outfile: PathBuf,
     card: String,
     thumbnail: String,
     next: Option<Linked>,
     prev: Option<Linked>,
 }
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
+struct MdConfig {
+    #[serde(default = "_default_true")]
+    tables: bool,
+    #[serde(default = "_default_true")]
+    footnotes: bool,
+    #[serde(default = "_default_true")]
+    strikethrough: bool,
+    #[serde(default = "_default_true")]
+    tasklists: bool,
+    #[serde(default = "_default_true")]
+    smart_punctuation: bool,
+    #[serde(default = "_default_true")]
+    heading_attributes: bool,
+}
+
+const fn _default_true() -> bool { true }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 struct Linked {
@@ -85,33 +106,38 @@ struct Linked {
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
-struct BlogConfig {
+struct IOConfig {
     output: PathBuf,
     input: PathBuf,
-    tables: bool,
-    footnotes: bool,
-    strikethrough: bool,
-    tasklists: bool,
-    smart_punctuation: bool,
-    heading_attributes: bool,
-    blogs: Vec<BlogPost>,
 }
 
-fn async_watcher() -> notify::Result<(RecommendedWatcher, Receiver<notify::Result<Event>>)> {
-    let (mut tx, rx) = channel(1);
+#[derive(Debug, Deserialize, Serialize, Clone)]
+struct BlogConfig {
+    config: IOConfig,
+    markdown: MdConfig,
+    articles: Vec<BlogPost>,
+}
 
-    let watcher = notify::recommended_watcher(
-        move |res| {
-            tokio::runtime::Handle::current().block_on(async {
-                match tx.send(res).await {
-                    Ok(_) => {},
-                    Err(err) => error!("Failed to send file event through channel: {err}"),
-                }
-            });
-        },
-    )?;
+fn async_watcher() -> notify::Result<(Debouncer<RecommendedWatcher, FileIdMap>, Receiver<DebouncedEvent>)> {
+    let (tx, rx) = channel(1);
+    let rt = Handle::current();
 
-    Ok((watcher, rx))
+    let debouncer = new_debouncer(Duration::from_millis(5000), None, move |res: DebounceEventResult| {
+        let tx = tx.clone();
+
+        rt.spawn(async move {
+            match res {
+                Ok(events) => if let Some(event) = events.last() {
+                    if let Err(err) = tx.send(event.clone()).await {
+                        error!("Error sending notify event: {err}");
+                    }
+                },
+                Err(err) => error!("Error in notify watcher: {err:?}"),
+            }
+        });
+    })?;
+
+    Ok((debouncer, rx))
 }
 
 async fn watch_blogs() {
@@ -120,29 +146,33 @@ async fn watch_blogs() {
         Err(err) => return error!("Unable to create async watcher: {err}"),
     };
 
-    if let Err(err) = watcher.watch(BLOG_CONFIG.as_ref(), RecursiveMode::NonRecursive) {
+    if let Err(err) = watcher.watcher().watch(BLOG_CONFIG.as_ref(), RecursiveMode::NonRecursive) {
         return error!("Unable to watch `{BLOG_CONFIG}`: {err}");
     }
-    if let Err(err) = watcher.watch(BLOGS.read().await.input.as_ref(), RecursiveMode::Recursive) {
+    if let Err(err) = watcher.watcher().watch(BLOGS.read().await.config.input.as_ref(), RecursiveMode::NonRecursive) {
         return error!("Unable to watch blog input directory: {err}");
     };
 
-    while let Some(res) = rx.next().await {
-        match res {
-            Ok(event) => {
-                handle_event(&mut watcher, event).await;
-            },
-            Err(err) => error!("error while watching files: {err}")
-        }
+    while let Some(event) = rx.recv().await {
+        info!("{event:#?}");
+        if let Err(err) = handle_event(watcher.watcher(), event).await {
+            error!("Error handling file change event: {err}");
+        };
     }
 }
 
-async fn handle_event(watcher: &mut RecommendedWatcher, event: Event) -> anyhow::Result<()> {
-    if matches!(event.kind, EventKind::Any | EventKind::Modify(_) | EventKind::Remove(_) | EventKind::Other) {
-        if let Some(BLOG_CONFIG) = event.source() {
-            watcher.unwatch(BLOGS.read().await.input.as_ref())?;
-            *BLOGS.write().await = toml::from_str(&fs::read_to_string(BLOG_CONFIG).await?)?;
-            watcher.watch(BLOGS.read().await.input.as_ref(), RecursiveMode::Recursive)?;
+async fn handle_event(watcher: &mut RecommendedWatcher, event: DebouncedEvent) -> anyhow::Result<()> {
+    if !matches!(event.kind, EventKind::Remove(_) | EventKind::Access(_)) || event.need_rescan() {
+        if let Some(Some(Some(BLOG_CONFIG))) = event.paths.first().map(|path| path.file_name().map(|name| name.to_str())) {
+            watcher.unwatch(BLOGS.read().await.config.input.as_ref())?;
+            match toml::from_str(&fs::read_to_string(BLOG_CONFIG).await?) {
+                Ok(cfg) => {
+                    info!("success");
+                    *BLOGS.write().await = cfg;
+                },
+                Err(err) => bail!("Unable to parse config file: {err}"),
+            }
+            watcher.watch(BLOGS.read().await.config.input.as_ref(), RecursiveMode::Recursive)?;
         }
 
         render_md().await?;
@@ -153,7 +183,9 @@ async fn handle_event(watcher: &mut RecommendedWatcher, event: Event) -> anyhow:
 
 /// Render and sanitize blog markdown
 async fn render_md() -> anyhow::Result<()> {
-    for blog in BLOGS.read().await.blogs.iter() {
+    let blogs = BLOGS.read().await;
+    for blog in blogs.articles.iter() {
+        let output = blogs.config.output.join(&blog.outfile);
         let rendered = {
             let mut ctx = Context::new();
             ctx.insert("title", &blog.title);
@@ -166,7 +198,7 @@ async fn render_md() -> anyhow::Result<()> {
                 ctx.insert("prev", prev);
             }
 
-            let md_path = PathBuf::from("./blogs").join(&blog.file);
+            let md_path = blogs.config.input.join(&blog.infile);
             let md = fs::read_to_string(md_path).await?;
 
             let options = Options::all();
@@ -190,10 +222,10 @@ async fn render_md() -> anyhow::Result<()> {
 
             ctx.insert("body", &safe_html);
 
-            info!("Rendered `{}`, output at `{}`", blog.file.display(), blog.out.display());
+            info!("Rendered `{}`, output at `{}`", blog.infile.display(), output.display());
             TEMPLATES.render("blog.tera", &ctx).expect("Unable to render blog")
         };
-        fs::write(&blog.out, rendered).await?;
+        fs::write(output, rendered).await?;
     }
 
     Ok(())
@@ -201,7 +233,8 @@ async fn render_md() -> anyhow::Result<()> {
 
 #[get("/")]
 async fn index(_req: HttpRequest) -> impl Responder {
-    let render = Context::from_serialize(&*BLOGS.read().await).map(|ctx| {
+    let blogs = BLOGS.read().await;
+    let render = Context::from_serialize(&*blogs).map(|ctx| {
         TEMPLATES.render("index.tera", &ctx)
     });
 
@@ -219,4 +252,25 @@ async fn favicon(_req: HttpRequest) -> impl Responder {
 #[get("/robots.txt")]
 async fn robots(_req: HttpRequest) -> impl Responder {
     afs::NamedFile::open("static/robots.txt")
+}
+
+#[get("/blog/{filename}")]
+async fn blog_post(req: HttpRequest) -> Result<NamedFile, error::Error> {
+    let filename: PathBuf = req.match_info().query("filename").parse()?;
+    
+    let file_path = BLOGS
+        .read()
+        .await
+        .config
+        .output
+        .join(
+            match filename.clean().file_name() {
+                Some(f) => f,
+                None => Err(error::ErrorNotFound("File not found"))?,
+            }
+        );
+
+    let file = afs::NamedFile::open(&file_path).map_err(|err| error::ErrorNotFound(err))?;
+
+    Ok(file)
 }
