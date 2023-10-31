@@ -2,3 +2,4 @@ https://www.pseudoservices.com/
 https://www.pseudoservices.com/robots.txt
 https://www.pseudoservices.com/blog/test.html
 https://www.pseudoservices.com/blog/assembler.html
+https://www.pseudoservices.com/blog/emulator.html
