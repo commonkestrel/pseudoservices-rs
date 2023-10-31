@@ -136,6 +136,7 @@ p, small, a, li, table {
 }
 
 .highlight {
+    font-family: "JetBrains Mono", Courier, monospace;
     line-height: 2;
     z-index: 5;
     position: relative;

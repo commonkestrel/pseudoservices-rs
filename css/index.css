@@ -52,6 +52,7 @@ html, body {
 }
 
 #randomizer {
+    font-family: "JetBrains Mono", Courier, monospace;
     position: relative;
     top: 3rem;
     margin-right: 5vw;
@@ -64,7 +65,6 @@ html, body {
     display: flex;
     overflow-wrap: break-word;
     line-height: 1em;
-    font-family: "JetBrains Mono", sans-serif;
 }
 
 #string, #hex {
