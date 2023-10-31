@@ -32,8 +32,7 @@ fn main() {
 - double
 - triple?
 
-#### Maybe tables?
-
+#### Maybe tables
 | h | e | a | d |
 |---|---|---|---|
 | wow | so cool | amazing | wonderful |
@@ -45,3 +44,10 @@ $$
 $$
 
 They also work inline: \\(f(x)=ax^2+bx+c\\)
+
+#### How about HTML?
+
+<figure>
+    <img src="/static/hagglund.jpg" alt="antarctic hagglund">
+    <figcaption>Antarctic hagglund (Photo by Laura Gerwin, NSF)</figcaption>
+</figure>

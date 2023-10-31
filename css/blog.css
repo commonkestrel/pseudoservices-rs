@@ -1,14 +1,15 @@
 html, body {
+    font-family: "Jost",Helvetica Neue,Helvetica,Arial,sans-serif;
     background-color: var(--background-color);
 }
 
 @media all and (orientation:landscape) {
-    #content {
+    main {
         right: 12.5vw;
         width: 75vw;
     }
 
-    #md-body {
+    #content {
         position: relative;
         left: 10vw;
         width: 50vw;
@@ -30,7 +31,7 @@ html, body {
 }
 
 @media all and (orientation:portrait) {
-    #content {
+    main {
         width: 95vw;
         left: 2.5%;
     }
@@ -54,7 +55,7 @@ header {
     object-fit: cover;
 }
 
-#content {
+main {
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -62,6 +63,12 @@ header {
     color: var(--text-color);
     position: absolute;
     top: 4.5rem;
+}
+
+#title-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 #description {
@@ -72,7 +79,7 @@ header {
     width: 100%;
     border-radius: 1em;
     overflow: hidden;
-    margin: 2rem 0;
+    margin: 1rem 0 4rem;
 }
 
 .thumbnail {
@@ -80,7 +87,7 @@ header {
     height: auto;
 }
 
-#md-body {
+#content {
     text-align: left;
     padding: 0 2em 1em;
     display: flex;
@@ -89,21 +96,21 @@ header {
     margin-bottom: 3rem;
 }
 
-#md-body table {
+#content table {
     border-collapse: collapse;
 }
 
-#md-body th {
+#content th {
     background-color: var(--secondary-color);
 }
 
-#md-body td, #md-body th {
+#content td, #content th {
     border-left: 1px solid #9999AA;
     border-right: 1px solid #9999AA;
     padding: 0.25rem;
 }
 
-#md-body tr {
+#content tr {
     border-top: 1px solid #9999AA;
     border-bottom: 1px solid #9999AA;
 }
@@ -162,4 +169,16 @@ p a {
 
 .next .label::after {
     content: " »";
+}
+
+#content figure {
+    padding: 0;
+    margin: 0;
+    max-width: 100%;
+}
+
+#content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 1rem;
 }
