@@ -11,20 +11,19 @@
 }
 
 :root {
-    font-family: "JetBrains Mono", sans-serif;
     color: var(--text-color);
 
     /* Color palette */
     --text-color: #F3ECEE;
-    --background-color: #101619;
+    --background-color: #111016;
     --primary-color: #5BCEFA;
     --secondary-color: #1f1f27;
     --accent-color: #F5A9B8;
     --line-color: #282E30;
-    --fader-color: #050708;
+    --wiper-color: #050708;
 
     /* Font sizes */
-    --p: 1rem;
+    --p: 1.2rem;
     --h5: calc(var(--p) * var(--font-scale));
     --h4: calc(var(--h5) * var(--font-scale));
     --h3: calc(var(--h4) * var(--font-scale));
@@ -89,8 +88,8 @@ p, small, a, li, table {
 }
 
 @media not (prefers-reduced-motion) {
-    #fader {
-        background-color: var(--fader-color);
+    #wiper {
+        background-color: var(--wiper-color);
         position: fixed;
         top: 0;
         height: 100%;
@@ -109,19 +108,19 @@ p, small, a, li, table {
         to { width: 100vw; }
     }
 
-    #fader.init-in {
+    #wiper.init-in {
         right: 0;
         width: 100%;
     }
 
-    #fader.fade-out {
+    #wiper.fade-out {
         animation-duration: 200ms;
         right: 0;
         width: 0;
         animation-name: fade-out;
     }
 
-    #fader.fade-in {
+    #wiper.fade-in {
         animation-duration: 150ms;
         left: 0;
         width: 100%;
@@ -143,6 +142,7 @@ p, small, a, li, table {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    width: fit-content;
 }
 
 .highlight::before {

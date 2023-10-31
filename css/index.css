@@ -64,6 +64,7 @@ html, body {
     display: flex;
     overflow-wrap: break-word;
     line-height: 1em;
+    font-family: "JetBrains Mono", sans-serif;
 }
 
 #string, #hex {
