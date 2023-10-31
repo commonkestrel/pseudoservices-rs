@@ -1,8 +1,8 @@
 const fadeInPage = () => {
-    let fader = document.getElementById("fader")!;
-    fader.classList.remove("init-in");
-    fader.classList.remove("fade-in");
-    fader.classList.add("fade-out");
+    let wiper = document.getElementById("wiper")!;
+    wiper.classList.remove("init-in");
+    wiper.classList.remove("fade-in");
+    wiper.classList.add("fade-out");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -16,19 +16,19 @@ document.addEventListener("DOMContentLoaded", () => {
             continue;
 
         anchors[i].addEventListener("click", (ev) => {
-            const fader = document.getElementById("fader")!;
+            const wiper = document.getElementById("wiper")!;
             const anchor = (ev.currentTarget! as HTMLAnchorElement)!;
 
             const listener = () => {
                 window.location.href = anchor.href;
-                fader?.removeEventListener("animationend", listener);
+                wiper?.removeEventListener("animationend", listener);
             }
-            fader.addEventListener("animationend", listener);
+            wiper.addEventListener("animationend", listener);
 
             ev.preventDefault();
 
-            fader.classList.remove("fade-out");
-            fader.classList.add("fade-in");
+            wiper.classList.remove("fade-out");
+            wiper.classList.add("fade-in");
         });
     }
 });
@@ -38,9 +38,9 @@ window.addEventListener("pageshow", (ev) => {
     if (!ev.persisted) {
         return;
     }
-    let fader = document.getElementById("fader")!;
-    fader.classList.remove("fade-in");
-    fader.classList.add("fade-out");
+    let wiper = document.getElementById("wiper")!;
+    wiper.classList.remove("fade-in");
+    wiper.classList.add("fade-out");
 });
 
 // Add id's to every header for Markdown sublinks
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let i=0; i < headings.length; i++) {
         const heading = headings[i] as HTMLHeadingElement;
         if (!heading.id) {
-            heading.id = heading.innerText.toLowerCase().replace(' ', '_');
+            heading.id = heading.innerText.toLowerCase().replace(/ /g, '_');
         }
     }
 });
