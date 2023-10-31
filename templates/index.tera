@@ -1,52 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.tera" %}
+{% block title %}Home{% endblock title %}
+{% block description %}PseudoServices homepage{% endblock description %}
+{% block head %}
+    {{ super() }}
     <link rel="canonical" href="https://pseudoservices.com/">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <title>PseudoServices</title>
-    <meta name="description" content="Homepage for commonkestrel's portfolio site">
-
     <link rel="stylesheet" href="/css/index.css">
-    <link rel="stylesheet" href="/css/nav.css">
-    <link rel="stylesheet" href="/css/icons.css">
-    <link rel="stylesheet" href="/css/global.css">
-    <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
-
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-    <script src="/js/global.js"></script>
-</head>
-<body>
-    <svg id="fader" class="init-in"></svg>
-
-    <nav id="navbar">
-        <div class="nav-left">
-            <a href="/">Home</a>
-        </div>
-        <div class="nav-right">
-            <a href="https://github.com/commonkestrel/"><img class="icon-github icon-grow icon-off-white"></a>
-        </div>
-    </nav>
-
-    <header id="randomizer">
-        <a href="https://github.com/commonkestrel/pseudoservices-rs" class="screenreader">Source Code</a>
-        <div id="hex-wrapper" aria-hidden="true" tabindex="-1">
-            <p id="hex">
-                <a href="https://github.com/commonkestrel/pseudoservices-rs" target="_blank" class="redlight" tabindex="-1">50 73 65 75 64 6F</a>
-                <a href="https://github.com/commonkestrel/pseudoservices-rs" target="_blank" class="bluelight" tabindex="-1">53 65 72 76 69 63 65 73</a>
-            </p>
-        </div>
-        <div id="string-wrapper" aria-hidden="true" tabindex="-1">
-            <p id="string">
-                <a href="https://github.com/commonkestrel/pseudoservices-rs" target="_blank" class="redlight" tabindex="-1">Pseudo</a>
-                <a href="https://github.com/commonkestrel/pseudoservices-rs" target="_blank" class="bluelight" tabindex="-1">Services</a>
-            </p>
-        </div>
-    </header>
+{% endblock head %}
+{% block body %}
     <main>
+        <header id="randomizer">
+            <a href="https://github.com/commonkestrel/pseudoservices-rs" class="screenreader">Source Code</a>
+            <div id="hex-wrapper" aria-hidden="true" tabindex="-1">
+                <p id="hex">
+                    <a href="https://github.com/commonkestrel/pseudoservices-rs" target="_blank" class="redlight" tabindex="-1">50 73 65 75 64 6F</a>
+                    <a href="https://github.com/commonkestrel/pseudoservices-rs" target="_blank" class="bluelight" tabindex="-1">53 65 72 76 69 63 65 73</a>
+                </p>
+            </div>
+            <div id="string-wrapper" aria-hidden="true" tabindex="-1">
+                <p id="string">
+                    <a href="https://github.com/commonkestrel/pseudoservices-rs" target="_blank" class="redlight" tabindex="-1">Pseudo</a>
+                    <a href="https://github.com/commonkestrel/pseudoservices-rs" target="_blank" class="bluelight" tabindex="-1">Services</a>
+                </p>
+            </div>
+        </header>
         <div class="heading">
             <h1 class="highlight">Blogs</h1>
         </div>
@@ -68,5 +44,4 @@
         </section>
     </main>
     <script src="/js/index.js"></script>
-</body>
-</html>
+{% endblock body %}

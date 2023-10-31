@@ -1,48 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="canonical" href="https://pseudoservices.com/">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <title>{{ title }}</title>
-    <meta name="description" content="Homepage for commonkestrel's portfolio site">
+{% extends "base.tera" %}
+{% block title %}{{ title }}{% endblock title %}
+{% block description %}{{ description }}{% endblock description %}
+{% block head %}
+    {{ super() }}
 
     <link rel="stylesheet" href="/css/blog.css">
-    <link rel="stylesheet" href="/css/nav.css">
-    <link rel="stylesheet" href="/css/icons.css">
-    <link rel="stylesheet" href="/css/global.css">
-    <script src="/js/global.js"></script>
 
-    <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
     <link rel="stylesheet" href="/host/ros-pine-moon.css">
     <script src="/host/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-</head>
-<body>
-    <svg id="fader" class="init-in"></svg>
-
-    <nav id="navbar">
-        <div class="nav-left">
-            <a href="/">Home</a>
-        </div>
-        <div class="nav-right">
-            <a href="https://github.com/commonkestrel/"><img class="icon-github icon-grow icon-off-white"></a>
-        </div>
-    </nav>
-
-    <div id="content">
+{% endblock head %}
+{% block body %}
+    <main>
         <header>
-            <h1>{{ title }}</h1>
+            <div id="title-container">
+                <div></div>
+                <h1 class="highlight">{{ title }}</h1>
+                <div></div>
+            </div>
             <p id="description">{{ description }}</p>
             <div class="thumbnail-container">
-                <img src={{ thumbnail }} class="thumbnail">
+                <img src={{ thumbnail }} class="thumbnail" alt="thumbnail">
             </div>
         </header>
-        <main>
-            <article id="md-body">
+        <div>
+            <article id="content">
                 {{ body }}
             </article>
             <div id="timeline">
@@ -67,7 +49,6 @@
                 {% endif %}
                 </div>
             </div>
-        </main>
-    </div>
-</body>
-</html>
+        </div>
+    </main>
+{% endblock body %}
