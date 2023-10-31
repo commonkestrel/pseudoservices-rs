@@ -34,13 +34,13 @@ infile = "assembler.md"
 outfile = "assembler.html"
 card = "https://isaaccomputerscience.org/api/v3.5.0/api/images/content/computer_science/computer_systems/programming_languages/figures/isaac_cs_sys_proglang_simulator_display_if.png"
 thumbnail = "https://www.pagetable.com/docs/cbmasm/resident_assembler.png"
-next = {title = "CPU Emulator", href = "emulator.html" }
+next = { title = "CPU Emulator", href = "emulator.html" }
 
 [[articles]]
-title = "Helloooooo"
+title = "CPU Emulator"
 description = "Creating an emulator for my custom CPU"
 infile = "emulator.md"
 outfile = "emulator.html"
 card = "https://cdn.hackaday.io/images/5525451542686847623.png"
 thumbnail = "https://cdn.hackaday.io/images/5525451542686847623.png"
-prev = {title = "Custom Assembler", href = "assembler.html" }
+prev = { title = "Custom Assembler", href = "assembler.html" }
