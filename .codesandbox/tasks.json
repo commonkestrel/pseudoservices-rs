@@ -1,0 +1,10 @@
+{
+  // These tasks can be run from CodeSandbox. Running one will open a log in the app.
+  "tasks": {
+    "cargo run": {
+      "name": "cargo run",
+      "command": "cargo run",
+      "runAtStart": true
+    }
+  }
+}

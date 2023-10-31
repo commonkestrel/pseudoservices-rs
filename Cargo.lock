@@ -649,6 +649,9 @@ dependencies = [
 [[package]]
 name = "frontend"
 version = "0.1.0"
+dependencies = [
+ "wasm-bindgen",
+]
 
 [[package]]
 name = "fsevent-sys"
